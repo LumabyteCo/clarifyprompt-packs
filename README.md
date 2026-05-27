@@ -1,73 +1,32 @@
-# ClarifyPrompt Knowledge Packs
+# 📦 ARCHIVED — packs moved to `clarifyprompt-mcp`
 
-Community-curated **knowledge packs** for [clarifyprompt-mcp](https://github.com/LumabyteCo/clarifyprompt-mcp) — the open-source MCP prompt compiler.
+This repository is **archived and read-only**.
 
-A **knowledge pack** is a markdown document with optional YAML frontmatter that teaches ClarifyPrompt something durable: a brand voice, a coding convention, a compliance rule, a domain-specific prompting pattern. Packs get chunked, embedded, and made available for semantic retrieval in every subsequent `optimize_prompt` call — scored by the Context Curator against the available token budget.
+Knowledge packs for [clarifyprompt-mcp](https://github.com/LumabyteCo/clarifyprompt-mcp) now live in the engine repo itself, under [`packs/`](https://github.com/LumabyteCo/clarifyprompt-mcp/tree/main/packs).
 
-## Using a pack
+**To contribute a pack:** open a PR against [LumabyteCo/clarifyprompt-mcp](https://github.com/LumabyteCo/clarifyprompt-mcp). Authoring rules and the quality bar are in [`packs/README.md`](https://github.com/LumabyteCo/clarifyprompt-mcp/blob/main/packs/README.md) over there.
 
-In any MCP host wired to `clarifyprompt-mcp@1.3+`:
+**To load a pack:** in any MCP host wired to `clarifyprompt-mcp@1.3+`:
 
 ```
 load_knowledge_pack({
-  source: "https://raw.githubusercontent.com/LumabyteCo/clarifyprompt-packs/main/packs/nextjs-14-best-practices.md",
+  source: "https://raw.githubusercontent.com/LumabyteCo/clarifyprompt-mcp/main/packs/nextjs-14-best-practices.md",
   scope: "user"
 })
 ```
 
-Or clone this repo and load locally:
+## Why archived?
 
-```
-load_knowledge_pack({ source: "./packs/anthropic-brand-voice.md" })
-```
+This registry was created in April 2026 with the right principle in mind (packs are content, not engine code → host them separately so contributions flow independently). After a month at one commit, three starter packs, and zero external PRs, the maintenance overhead of keeping two repos in sync was paying for an audience that hadn't materialized — and the `higgsfield-creative-handbook` pack shipped in `clarifyprompt-mcp@1.6.2` never made it to this registry, exhibit A of the drift.
 
-## Authoring a pack
+The split makes sense once there's a forcing function: a community PR queue, pack count >20, or divergent licensing/governance. None of those are true today. Collapsing now keeps the source of truth singular and unambiguous.
 
-Packs are plain markdown with YAML frontmatter:
+See the `1.6.4` entry in [`clarifyprompt-mcp/CHANGELOG.md`](https://github.com/LumabyteCo/clarifyprompt-mcp/blob/main/CHANGELOG.md) for the full rationale.
 
-```markdown
----
-name: my-team-style-guide
-version: 1.0.0
-description: Brand + voice guidelines for MyTeam's marketing copy
-scope: user
-author: My Name
-license: Apache-2.0
-tags: [brand, voice, marketing]
----
+## Historical contents
 
-# My Team Style Guide
-
-## Tone
-...
-
-## Register
-...
-```
-
-Rules:
-- **H1 = the pack title** (implicit, from the filename or frontmatter).
-- **H2+ define chunk boundaries.** Each H2 section becomes one (or more) retrievable chunks. Aim for ~500–1500 chars per chunk.
-- **Be specific and actionable.** Packs that teach abstract principles don't retrieve as well as packs with concrete rules and examples.
-- **Keep it under ~15 KB.** Larger packs still work but lose retrieval precision as chunks dilute.
-
-## Contributing
-
-1. Fork + branch.
-2. Add your pack under `packs/`.
-3. Validate with the [schema](./schema/pack.schema.json) (coming in 1.3.1).
-4. Open a PR with a short description of what the pack teaches and when to load it.
-
-All packs in this registry are **Apache-2.0** unless explicitly dual-licensed in their frontmatter.
-
-## Starter packs
-
-| Pack | Scope | What it teaches |
-|---|---|---|
-| [nextjs-14-best-practices](./packs/nextjs-14-best-practices.md) | user | Server-first Next.js 14 App Router conventions |
-| [anthropic-brand-voice](./packs/anthropic-brand-voice.md) | user | Anthropic's public-facing tone, register, word choices |
-| [sox-compliance](./packs/sox-compliance.md) | user | Sarbanes-Oxley 404 guardrails for AI-assisted financial work |
+The three starter packs hosted here from 2026-04-24 onward — `anthropic-brand-voice`, `nextjs-14-best-practices`, `sox-compliance` — remain authoritative at the engine repo's `packs/` directory, alongside `higgsfield-creative-handbook` (added in 1.6.2). License unchanged: Apache-2.0.
 
 ## License
 
-Apache-2.0 for the registry scaffolding; individual packs retain the license declared in their frontmatter.
+Apache-2.0. See [`LICENSE`](./LICENSE).
